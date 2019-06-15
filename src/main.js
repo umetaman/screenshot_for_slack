@@ -1,16 +1,14 @@
-const electron = require("electron");
-const BrowserWindow: Electron.BrowserWindow = electron.BrowserWindow;
-const app: Electron.App = electron.app;
-
-class MyApp{
-    
-    mainWindow: Electron.BrowserWindow = null;
-
-    constructor(public app: Electron.App){
+var electron = require("electron");
+var BrowserWindow = electron.BrowserWindow;
+var app = electron.app;
+var MyApp = /** @class */ (function () {
+    function MyApp(app) {
+        this.app = app;
+        this.mainWindow = null;
         app.on("ready", this.onReady);
     }
-
-    onReady(){
+    MyApp.prototype.onReady = function () {
+        var _this = this;
         this.mainWindow = new BrowserWindow({
             x: 0,
             y: 0,
@@ -25,13 +23,11 @@ class MyApp{
                 nodeIntegration: true
             }
         });
-
         this.mainWindow.loadFile("index.html");
-        this.mainWindow.on("closed", () => {
-            this.mainWindow = null;
+        this.mainWindow.on("closed", function () {
+            _this.mainWindow = null;
         });
-    }
-
-}
-
-const myApp: MyApp = new MyApp(app);
+    };
+    return MyApp;
+}());
+var myApp = new MyApp(app);
