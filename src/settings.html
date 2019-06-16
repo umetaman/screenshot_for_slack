@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="./index.html" id="link_to_mainpage">
+        <button class="link-to-anotherpage" id="back_btn">Back</button>
+    </a>
+    <h1>Settings</h1>
+    <form name="setting_form" id="settings_form">
+        <table id="settings_table">
+            <tr>
+                <td><label for="slack_api_key">Slack API Key: </label></td>
+                <td><input type="text" name="slack_api_key" id="slack_api_key"></td>
+            </tr>
+            <tr>
+                <td><label for="channel_url"></label>Channel URL: </td>
+                <td><input type="text" name="channel_url" id="channel_url"></td>
+            </tr>
+        </table>
+    </form>
+
+    <script src="./config.ts"></script>
+</body>
+</html>

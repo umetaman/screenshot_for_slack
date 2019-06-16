@@ -12,13 +12,8 @@ var MyApp = /** @class */ (function () {
         this.mainWindow = new BrowserWindow({
             x: 0,
             y: 0,
-            width: 300,
-            height: 120,
-            minWidth: 150,
-            minHeight: 65,
-            titleBarStyle: "hidden",
-            transparent: true,
-            frame: false,
+            width: 800,
+            height: 500,
             webPreferences: {
                 nodeIntegration: true
             }

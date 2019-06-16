@@ -1,3 +1,4 @@
+const path = require("path");
 const electron = require("electron");
 const BrowserWindow: Electron.BrowserWindow = electron.BrowserWindow;
 const app: Electron.App = electron.app;
@@ -14,13 +15,8 @@ class MyApp{
         this.mainWindow = new BrowserWindow({
             x: 0,
             y: 0,
-            width: 300,
-            height: 120,
-            minWidth: 150,
-            minHeight: 65,
-            titleBarStyle: "hidden",
-            transparent: true,
-            frame: false,
+            width: 400,
+            height: 250,
             webPreferences: {
                 nodeIntegration: true
             }
