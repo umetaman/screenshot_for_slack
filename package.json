@@ -18,9 +18,15 @@
   "homepage": "https://github.com/umetaman/screenshot_for_slack#readme",
   "devDependencies": {
     "electron": "^5.0.3",
+    "electron-builder": "^20.43.0",
     "electron-config": "^2.0.0",
     "electron-packager": "^13.1.1",
     "request": "^2.88.0",
     "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "electron": "^5.0.3",
+    "electron-config": "^2.0.0",
+    "request": "^2.88.0"
   }
 }

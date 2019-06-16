@@ -1,3 +1,15 @@
 {
-    "main": "main.js"
+  "main": "main.js",
+  "name": "screenshot_for_slack_build",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "umetaman",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "electron-config": "^2.0.0",
+    "request": "^2.88.0"
+  }
 }
