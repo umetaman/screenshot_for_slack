@@ -1,3 +1,4 @@
+var path = require("path");
 var electron = require("electron");
 var BrowserWindow = electron.BrowserWindow;
 var app = electron.app;
@@ -12,8 +13,10 @@ var MyApp = /** @class */ (function () {
         this.mainWindow = new BrowserWindow({
             x: 0,
             y: 0,
-            width: 800,
-            height: 500,
+            width: 400,
+            height: 250,
+            transparent: true,
+            frame: false,
             webPreferences: {
                 nodeIntegration: true
             }

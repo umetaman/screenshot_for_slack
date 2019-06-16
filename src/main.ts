@@ -17,6 +17,8 @@ class MyApp{
             y: 0,
             width: 400,
             height: 250,
+            transparent: true,
+            frame: false,
             webPreferences: {
                 nodeIntegration: true
             }
