@@ -8,16 +8,50 @@ var shell = electron.shell;
 var fileStream = require("fs");
 var OS = require("os");
 var path = require("path");
-//キャプチャのボタン
-var captureBtn = document.getElementById("capture_btn");
 //デバッグ用の表示
 var debugMsg = document.getElementById("debug_msg");
-//保存していたパラメータの取得
-var _a = config.get("apiElements"), apiKey = _a.apiKey, channelUrl = _a.channelUrl;
 function showMsgToConsole(msg) {
     debugMsg.textContent = msg;
 }
+//SlackのAPIを使うためのクラス
+var request = require("request");
+var SlackAPI = /** @class */ (function () {
+    function SlackAPI(key, channelUrl) {
+        this.key = key;
+        this.channelUrl = channelUrl;
+        this.SLACK_UPLOAD_URL = "https://slack.com/api/files.upload";
+        this.apiKey = "";
+        this.channelID = "";
+        this.apiKey = key;
+        var _channelUrlSplitted = channelUrl.split('/');
+        this.channelID = _channelUrlSplitted[_channelUrlSplitted.length - 1];
+    }
+    SlackAPI.prototype.postImage = function (imagePath, comment) {
+        //邪悪な命名
+        var _tmp = imagePath.split('/');
+        var _fileName = _tmp[_tmp.length - 1];
+        showMsgToConsole(imagePath);
+        var _options = {
+            url: this.SLACK_UPLOAD_URL,
+            formData: {
+                token: this.apiKey,
+                title: "title",
+                filename: _fileName,
+                filetype: "auto",
+                channels: this.channelID,
+                file: fileStream.createReadStream(imagePath)
+            }
+        };
+        request.post(_options, function (error, response) {
+            console.log(JSON.parse(response));
+        });
+    };
+    return SlackAPI;
+}());
+//キャプチャのボタン
+var captureBtn = document.getElementById("capture_btn");
 function saveScreenImage() {
+    var _savePath = "";
     showMsgToConsole("スクリーンショットを取得中...");
     //スクリーンショットの設定
     var _a = electron.screen.getPrimaryDisplay().workAreaSize, width = _a.width, height = _a.height;
@@ -42,22 +76,27 @@ function saveScreenImage() {
                 //保存するディレクトリの取得
                 var _date = new Date();
                 var _imageFileName = "screenshot_" + _date.getTime().toString() + ".png";
-                var _savePath_1 = path.join(OS.tmpdir(), _imageFileName);
+                _savePath = path.join(OS.tmpdir(), _imageFileName);
                 //ファイルにPNG形式で書き込む
-                fileStream.writeFile(_savePath_1, source.thumbnail.toPNG(), function (error) {
+                fileStream.writeFile(_savePath, source.thumbnail.toPNG(), function (error) {
                     //エラーが来たときは強制終了
                     if (error) {
                         // console.log(error);
                         return console.log(error);
                     }
-                    var _msg = "次のディレクトリに保存しました。\n" + _savePath_1;
+                    var _msg = "次のディレクトリに保存しました。\n" + _savePath;
                     showMsgToConsole(_msg);
+                    var _a = config.get("apiElements"), apiKey = _a.apiKey, channelUrl = _a.channelUrl;
+                    var slack = new SlackAPI(apiKey, channelUrl);
+                    slack.postImage(_savePath, "test");
+                    return _savePath;
                 });
             }
         });
     });
+    return _savePath;
 }
 //キャプチャのボタンにClickイベントを仕掛ける
 captureBtn.addEventListener("click", function () {
-    saveScreenImage();
+    var _imgPath = saveScreenImage();
 });

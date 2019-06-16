@@ -11,14 +11,55 @@ const fileStream = require("fs");
 const OS = require("os");
 const path = require("path");
 
-//キャプチャのボタン
-const captureBtn = document.getElementById("capture_btn");
 //デバッグ用の表示
 const debugMsg = document.getElementById("debug_msg");
 
 function showMsgToConsole(msg: string){
     debugMsg.textContent = msg;
 }
+
+//SlackのAPIを使うためのクラス
+const request = require("request");
+
+class SlackAPI{
+    private SLACK_UPLOAD_URL: string = "https://slack.com/api/files.upload";
+    public apiKey: string = "";
+    public channelID: string = "";
+
+    constructor(public key: string, public channelUrl: string){
+        this.apiKey = key;
+        
+        let _channelUrlSplitted = channelUrl.split('/');
+        this.channelID = _channelUrlSplitted[_channelUrlSplitted.length - 1];
+    }
+
+    public postImage(imagePath: string, comment: string) {
+        //邪悪な命名
+        let _tmp = imagePath.split('/');
+        const _fileName = _tmp[_tmp.length - 1];
+
+        showMsgToConsole(imagePath);
+
+        let _options = {
+            url: this.SLACK_UPLOAD_URL,
+            formData: {
+                token: this.apiKey,
+                title: "title",
+                filename: _fileName,
+                filetype: "auto",
+                channels: this.channelID,
+                file: fileStream.createReadStream(imagePath)
+            }
+        }
+
+        request.post(_options, (error, response) => {
+            console.log(JSON.parse(response));
+        })
+    }
+}
+
+//キャプチャのボタン
+const captureBtn = document.getElementById("capture_btn");
 
 function saveScreenImage(): string{
     let _savePath: string = "";
@@ -67,6 +108,11 @@ function saveScreenImage(): string{
 
                             const _msg = "次のディレクトリに保存しました。\n" + _savePath;
                             showMsgToConsole(_msg);
+
+                            const {apiKey, channelUrl} = config.get("apiElements");
+                            const slack: SlackAPI = new SlackAPI(apiKey, channelUrl);
+                            slack.postImage(_savePath, "test");    
+                            return _savePath;
                         }
                         )
                 }
@@ -75,10 +121,6 @@ function saveScreenImage(): string{
     );
 
     return _savePath;
-}
-
-function postToSlackChennel(imgPath: string): boolean{
-    
 }
 
 //キャプチャのボタンにClickイベントを仕掛ける
