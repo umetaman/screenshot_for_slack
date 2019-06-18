@@ -101,3 +101,8 @@ function saveScreenImage() {
 captureBtn.addEventListener("click", function () {
     var _imgPath = saveScreenImage();
 });
+//プロセス間通信
+var ipcRenderer = electron.ipcRenderer;
+ipcRenderer.on("ctrl-shift-m", function (arg) {
+    saveScreenImage();
+});

@@ -1,12 +1,22 @@
 var path = require("path");
 var electron = require("electron");
+var globalShortcut = electron.globalShortcut;
+var Menu = electron.Menu;
 var BrowserWindow = electron.BrowserWindow;
 var app = electron.app;
+var ipcMain = electron.ipcMain;
 var MyApp = /** @class */ (function () {
     function MyApp(app) {
+        var _this = this;
         this.app = app;
         this.mainWindow = null;
-        app.on("ready", this.onReady);
+        app.on("ready", function () {
+            globalShortcut.register("CommandOrControl+Shift+M", function () {
+                _this.mainWindow.webContents.send("ctrl-shift-m", "Hello! from Main.");
+            });
+            _this.onReady();
+            _this.initWindowMenu();
+        });
     }
     MyApp.prototype.onReady = function () {
         var _this = this;
@@ -20,9 +30,28 @@ var MyApp = /** @class */ (function () {
             }
         });
         this.mainWindow.loadFile("index.html");
+        this.mainWindow.webContents.openDevTools();
         this.mainWindow.on("closed", function () {
             _this.mainWindow = null;
         });
+    };
+    MyApp.prototype.initWindowMenu = function () {
+        var _menuStruct = [
+            {
+                label: "Help",
+                submenu: [
+                    {
+                        label: "Settings",
+                        click: function () {
+                            var _window = require("electron").BrowserWindow.getFocusedWindow();
+                            _window.loadFile("settings.html");
+                        }
+                    }
+                ]
+            }
+        ];
+        var _menu = Menu.buildFromTemplate(_menuStruct);
+        Menu.setApplicationMenu(_menu);
     };
     return MyApp;
 }());
