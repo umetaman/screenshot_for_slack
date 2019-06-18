@@ -30,7 +30,6 @@ var MyApp = /** @class */ (function () {
             }
         });
         this.mainWindow.loadFile("index.html");
-        this.mainWindow.webContents.openDevTools();
         this.mainWindow.on("closed", function () {
             _this.mainWindow = null;
         });

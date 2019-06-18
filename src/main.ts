@@ -32,7 +32,6 @@ class MyApp{
         });
 
         this.mainWindow.loadFile("index.html");
-        this.mainWindow.webContents.openDevTools();
         this.mainWindow.on("closed", () => {
             this.mainWindow = null;
         });
