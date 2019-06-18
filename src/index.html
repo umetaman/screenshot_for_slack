@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="./fontawesome/brands.min.css">
+    <link rel="stylesheet" href="./fontawesome/regular.min.css">
+    <link rel="stylesheet" href="./fontawesome/solid.min.css">
+    <link rel="stylesheet" href="./all.min.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Screenshot for Slack</title>
 </head>
 <body>
-    <button id="capture_btn">Capture Screen!</button>
-
     <a href="./settings.html" id="link_to_settings">
-        <button class="link-to-anotherpage">Settings</button>
+        <button class="link-to-anotherpage"><i class="fas fa-cog"></i></button>
     </a>
 
+    <button id="capture_btn"><i class="fas fa-camera"></i></button>
+
     <section class="debug-section">
-    <h2>Debug Console</h2>
-    <p id="debug_msg"></p>
+        <h2>Debug Console</h2>
+        <p id="debug_msg"></p>
     </section>
 
     <script src="./capture.js"></script>
