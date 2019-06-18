@@ -26,7 +26,7 @@ var SlackAPI = /** @class */ (function () {
         var _channelUrlSplitted = channelUrl.split('/');
         this.channelID = _channelUrlSplitted[_channelUrlSplitted.length - 1];
     }
-    SlackAPI.prototype.postImage = function (imagePath, comment) {
+    SlackAPI.prototype.postImage = function (imagePath, imageTitle) {
         //邪悪な命名
         var _tmp = imagePath.split('/');
         var _fileName = _tmp[_tmp.length - 1];
@@ -35,7 +35,7 @@ var SlackAPI = /** @class */ (function () {
             url: this.SLACK_UPLOAD_URL,
             formData: {
                 token: this.apiKey,
-                title: "title",
+                title: imageTitle,
                 filename: _fileName,
                 filetype: "auto",
                 channels: this.channelID,
@@ -71,12 +71,13 @@ function saveScreenImage() {
         }
         //取得したSourceを総当たり
         sources.forEach(function (source) {
+            console.log(source.name);
             //メインスクリーン、または1番目のスクリーンを対象とする
-            if (source.name == "Entire Screen" || source.name == "Screen 1") {
+            if (source.name == "Entire screen" || source.name == "Screen 1") {
                 //保存するディレクトリの取得
                 var _date = new Date();
-                var _imageFileName = "screenshot_" + _date.getTime().toString() + ".png";
-                _savePath = path.join(OS.tmpdir(), _imageFileName);
+                var _imageFileName_1 = "screenshot_" + _date.getTime().toString() + ".png";
+                _savePath = path.join(OS.tmpdir(), _imageFileName_1);
                 //ファイルにPNG形式で書き込む
                 fileStream.writeFile(_savePath, source.thumbnail.toPNG(), function (error) {
                     //エラーが来たときは強制終了
@@ -88,7 +89,7 @@ function saveScreenImage() {
                     showMsgToConsole(_msg);
                     var _a = config.get("apiElements"), apiKey = _a.apiKey, channelUrl = _a.channelUrl;
                     var slack = new SlackAPI(apiKey, channelUrl);
-                    slack.postImage(_savePath, "test");
+                    slack.postImage(_savePath, _imageFileName_1);
                     return _savePath;
                 });
             }

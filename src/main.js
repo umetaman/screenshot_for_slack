@@ -15,8 +15,8 @@ var MyApp = /** @class */ (function () {
             y: 0,
             width: 400,
             height: 250,
-            transparent: true,
             frame: false,
+            transparent: true,
             webPreferences: {
                 nodeIntegration: true
             }

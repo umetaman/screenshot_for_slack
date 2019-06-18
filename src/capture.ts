@@ -33,7 +33,7 @@ class SlackAPI{
         this.channelID = _channelUrlSplitted[_channelUrlSplitted.length - 1];
     }
 
-    public postImage(imagePath: string, comment: string) {
+    public postImage(imagePath: string, imageTitle: string) {
         //邪悪な命名
         let _tmp = imagePath.split('/');
         const _fileName = _tmp[_tmp.length - 1];
@@ -44,7 +44,7 @@ class SlackAPI{
             url: this.SLACK_UPLOAD_URL,
             formData: {
                 token: this.apiKey,
-                title: "title",
+                title: imageTitle,
                 filename: _fileName,
                 filetype: "auto",
                 channels: this.channelID,
@@ -88,8 +88,9 @@ function saveScreenImage(): string{
 
             //取得したSourceを総当たり
             sources.forEach(source => {
+                console.log(source.name);
                 //メインスクリーン、または1番目のスクリーンを対象とする
-                if(source.name == "Entire Screen" || source.name == "Screen 1"){
+                if(source.name == "Entire screen" || source.name == "Screen 1"){
                     //保存するディレクトリの取得
                     const _date = new Date();
                     let _imageFileName = "screenshot_" + _date.getTime().toString() + ".png";
@@ -111,7 +112,7 @@ function saveScreenImage(): string{
 
                             const {apiKey, channelUrl} = config.get("apiElements");
                             const slack: SlackAPI = new SlackAPI(apiKey, channelUrl);
-                            slack.postImage(_savePath, "test");    
+                            slack.postImage(_savePath, _imageFileName);    
                             return _savePath;
                         }
                         )
