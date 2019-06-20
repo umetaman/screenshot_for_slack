@@ -4,6 +4,7 @@ const globalShortcut = electron.globalShortcut;
 const Menu = electron.Menu;
 const BrowserWindow: Electron.BrowserWindow = electron.BrowserWindow;
 const app: Electron.App = electron.app;
+//プロセス間通信
 const ipcMain = electron.ipcMain;
 
 class MyApp{
@@ -49,7 +50,15 @@ class MyApp{
                             const _window = require("electron").BrowserWindow.getFocusedWindow();
                             _window.loadFile("settings.html");
                         }
-                    }
+                    },
+                    {
+                        label: "Quit",
+                        accelerator: "CommandOrControl+Q",
+                        click(){
+                            const _window = require("electron").BrowserWindow.getFocusedWindow();
+                            _window.close();
+                        }
+                    },
                 ]
             }
         ];

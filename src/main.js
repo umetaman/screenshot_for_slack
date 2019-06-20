@@ -4,6 +4,7 @@ var globalShortcut = electron.globalShortcut;
 var Menu = electron.Menu;
 var BrowserWindow = electron.BrowserWindow;
 var app = electron.app;
+//プロセス間通信
 var ipcMain = electron.ipcMain;
 var MyApp = /** @class */ (function () {
     function MyApp(app) {
@@ -46,7 +47,15 @@ var MyApp = /** @class */ (function () {
                             var _window = require("electron").BrowserWindow.getFocusedWindow();
                             _window.loadFile("settings.html");
                         }
-                    }
+                    },
+                    {
+                        label: "Quit",
+                        accelerator: "CommandOrControl+Q",
+                        click: function () {
+                            var _window = require("electron").BrowserWindow.getFocusedWindow();
+                            _window.close();
+                        }
+                    },
                 ]
             }
         ];
