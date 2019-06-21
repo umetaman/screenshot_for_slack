@@ -32,46 +32,6 @@ function showMsgToConsole(msg: string){
     debugMsg.textContent = msg;
 }
 
-//SlackのAPIを使うためのクラス
-const request = require("request");
-
-class SlackAPI{
-    private SLACK_UPLOAD_URL: string = "https://slack.com/api/files.upload";
-    public apiKey: string = "";
-    public channelID: string = "";
-
-    constructor(public key: string, public channelUrl: string){
-        this.apiKey = key;
-        
-        let _channelUrlSplitted = channelUrl.split('/');
-        this.channelID = _channelUrlSplitted[_channelUrlSplitted.length - 1];
-    }
-
-    public postImage(imagePath: string, imageTitle: string) {
-        //邪悪な命名
-        let _tmp = imagePath.split('/');
-        const _fileName = _tmp[_tmp.length - 1];
-
-        showMsgToConsole(imagePath);
-
-        let _options = {
-            url: this.SLACK_UPLOAD_URL,
-            formData: {
-                token: this.apiKey,
-                title: imageTitle,
-                filename: _fileName,
-                filetype: "auto",
-                channels: this.channelID,
-                file: fileStream.createReadStream(imagePath)
-            }
-        }
-
-        request.post(_options, (error, response) => {
-            console.log(JSON.parse(response));
-        })
-    }
-}
-
 //キャプチャのボタン
 const captureBtn = document.getElementById("capture_btn");
 

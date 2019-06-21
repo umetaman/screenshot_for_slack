@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,24 +13,45 @@
     <title>Screenshot for Slack</title>
 </head>
 <body>
+    <section class="setting-section">
+        <h1>Settings</h1>
+
+        <div id="user_input_field">
+            <form name="api_form" id="api_form">
+                <p><label for="slack_api_key">Your Slack API Key</label></p>
+                <p><input type="text" name="slack_api_key" id="slack_api_key"></p>
+            </form>
+        </div>
+
+        <h1>Channels</h1>
+        <div id="channel_list_container">
+            <p class="notice-msg">Input your Slack API Key.</p>
+            <form name="channel_select_form" id="channel_select_form">
+                <ul id="channel_list">
+                <!-- channel items -->
+                    <li class="channel-list-item">
+                        <input type="radio" name="channel_select" value="#hogehoge">#hogehoge
+                    </li>
+                    <li class="channel-list-item">
+                        <input type="radio" name="channel_select" value="#hogehoge">#hogehoge
+                    </li>
+                    <li class="channel-list-item">
+                        <input type="radio" name="channel_select" value="#hogehoge">#hogehoge
+                    </li>
+                    <li class="channel-list-item">
+                        <input type="radio" name="channel_select" value="#hogehoge">#hogehoge
+                    </li>
+                    <li class="channel-list-item">
+                        <input type="radio" name="channel_select" value="#hogehoge">#hogehoge
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </section>
+
     <a href="./index.html" id="link_to_mainpage">
         <button class="link-to-anotherpage" id="back_btn"><i class="fas fa-long-arrow-alt-left"></i></button>
     </a>
-    <section class="setting-section">
-        <h1>Settings</h1>
-        <form name="setting_form" id="settings_form">
-            <table id="settings_table">
-                <tr>
-                    <td><label for="slack_api_key">Slack API Key: </label></td>
-                    <td><input type="text" name="slack_api_key" id="slack_api_key"></td>
-                </tr>
-                <tr>
-                    <td><label for="channel_url"></label>Channel URL: </td>
-                    <td><input type="text" name="channel_url" id="channel_url"></td>
-                </tr>
-            </table>
-        </form>
-    </section>
 
     <script src="./config.ts"></script>
 </body>
