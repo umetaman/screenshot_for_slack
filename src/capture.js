@@ -8,21 +8,16 @@ var OS = require("os");
 var path = require("path");
 //OSの通知を使う
 function notififyScreenshot(msg, imagePath) {
-    var _notifier = require("node-notifier");
-    var _option = {
-        title: "Screenshot for Slack",
-        message: msg,
-        icon: null,
-        sound: true,
-        wait: true,
-        contentImage: imagePath
-    };
-    _notifier.notify(_option, function (error, response) {
-        console.log(response);
-        if (error) {
-            console.log(error);
-        }
+    var _notifier = new Notification("Screenshot for Slack", {
+        body: msg,
+        silent: true
     });
+    _notifier.onclick = function () {
+        console.log("OnClickEvent.");
+        //OSのShellを使ってファイルを開く
+        var _shell = electron.shell;
+        _shell.openItem(imagePath);
+    };
 }
 //デバッグ用の表示
 var debugMsg = document.getElementById("debug_msg");

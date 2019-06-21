@@ -42,14 +42,43 @@ class MyApp{
     public initWindowMenu() {
         const _menuStruct = [
             {
-                label: "Help",
+                label: "Edit",
                 submenu: [
                     {
-                        label: "Settings",
-                        click(){
-                            const _window = require("electron").BrowserWindow.getFocusedWindow();
-                            _window.loadFile("settings.html");
-                        }
+                        label: "Undo",
+                        accelerator: "CmdOrCtrl+Z",
+                        selector: "undo:"
+                    },
+                    {
+                        label: "Redo",
+                        accelerator: "Shift+CmdOrCtrl+Z",
+                        selector: "redo:"
+                    },
+                    {
+                        type: "separator"
+                    },
+                    {
+                        label: "Cut",
+                        accelerator: "CmdOrCtrl+X",
+                        selector: "cut:"
+                    },
+                    {
+                        label: "Copy",
+                        accelerator: "CmdOrCtrl+C",
+                        selector: "copy:"
+                    },
+                    {
+                        label: "Paste",
+                        accelerator: "CmdOrCtrl+V",
+                        selector: "paste:"
+                    },
+                    {
+                        label: "Select All",
+                        accelerator: "CmdOrCtrl+A",
+                        selector: "selectAll:"
+                    },
+                    {
+                        type: "separator"
                     },
                     {
                         label: "Quit",
@@ -58,7 +87,19 @@ class MyApp{
                             const _window = require("electron").BrowserWindow.getFocusedWindow();
                             _window.close();
                         }
-                    },
+                    }
+                ]
+            },
+            {
+                label: "Help",
+                submenu: [
+                    {
+                        label: "Settings",
+                        click(){
+                            const _window = require("electron").BrowserWindow.getFocusedWindow();
+                            _window.loadFile("settings.html");
+                        }
+                    }
                 ]
             }
         ];

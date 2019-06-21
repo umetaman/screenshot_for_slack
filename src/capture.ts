@@ -10,24 +10,19 @@ const path = require("path");
 
 //OSの通知を使う
 function notififyScreenshot(msg: string, imagePath: string){
-    const _notifier = require("node-notifier");
     
-    let _option = {
-        title: "Screenshot for Slack",
-        message: msg,
-        icon: null,
-        sound: true,
-        wait: true,
-        contentImage: imagePath
-    };
-
-    _notifier.notify(_option, (error, response) =>{
-        console.log(response);
-
-        if(error){
-            console.log(error);
-        }
+    const _notifier = new Notification("Screenshot for Slack", {
+        body: msg,
+        silent: true,
     });
+
+    _notifier.onclick = () => {
+        console.log("OnClickEvent.");
+
+        //OSのShellを使ってファイルを開く
+        const _shell = electron.shell;
+        _shell.openItem(imagePath);
+    };
 }
 
 //デバッグ用の表示
