@@ -4,6 +4,7 @@ var globalShortcut = electron.globalShortcut;
 var Menu = electron.Menu;
 var BrowserWindow = electron.BrowserWindow;
 var app = electron.app;
+//プロセス間通信
 var ipcMain = electron.ipcMain;
 var MyApp = /** @class */ (function () {
     function MyApp(app) {
@@ -36,6 +37,55 @@ var MyApp = /** @class */ (function () {
     };
     MyApp.prototype.initWindowMenu = function () {
         var _menuStruct = [
+            {
+                label: "Edit",
+                submenu: [
+                    {
+                        label: "Undo",
+                        accelerator: "CmdOrCtrl+Z",
+                        selector: "undo:"
+                    },
+                    {
+                        label: "Redo",
+                        accelerator: "Shift+CmdOrCtrl+Z",
+                        selector: "redo:"
+                    },
+                    {
+                        type: "separator"
+                    },
+                    {
+                        label: "Cut",
+                        accelerator: "CmdOrCtrl+X",
+                        selector: "cut:"
+                    },
+                    {
+                        label: "Copy",
+                        accelerator: "CmdOrCtrl+C",
+                        selector: "copy:"
+                    },
+                    {
+                        label: "Paste",
+                        accelerator: "CmdOrCtrl+V",
+                        selector: "paste:"
+                    },
+                    {
+                        label: "Select All",
+                        accelerator: "CmdOrCtrl+A",
+                        selector: "selectAll:"
+                    },
+                    {
+                        type: "separator"
+                    },
+                    {
+                        label: "Quit",
+                        accelerator: "CommandOrControl+Q",
+                        click: function () {
+                            var _window = require("electron").BrowserWindow.getFocusedWindow();
+                            _window.close();
+                        }
+                    }
+                ]
+            },
             {
                 label: "Help",
                 submenu: [

@@ -2,12 +2,23 @@ var electron = require("electron");
 var desktopCapture = electron.desktopCapturer;
 var Config = require("electron-config");
 var config = new Config();
-//OSのシェル操作と同等の機能を使えるように
-var shell = electron.shell;
 //ファイルの入出力
 var fileStream = require("fs");
 var OS = require("os");
 var path = require("path");
+//OSの通知を使う
+function notififyScreenshot(msg, imagePath) {
+    var _notifier = new Notification("Screenshot for Slack", {
+        body: msg,
+        silent: true
+    });
+    _notifier.onclick = function () {
+        console.log("OnClickEvent.");
+        //OSのShellを使ってファイルを開く
+        var _shell = electron.shell;
+        _shell.openItem(imagePath);
+    };
+}
 //デバッグ用の表示
 var debugMsg = document.getElementById("debug_msg");
 function showMsgToConsole(msg) {
@@ -90,6 +101,8 @@ function saveScreenImage() {
                     var _a = config.get("apiElements"), apiKey = _a.apiKey, channelUrl = _a.channelUrl;
                     var slack = new SlackAPI(apiKey, channelUrl);
                     slack.postImage(_savePath, _imageFileName_1);
+                    //スクリーンショットの通知
+                    notififyScreenshot("Saved current screen.", _savePath);
                     return _savePath;
                 });
             }
